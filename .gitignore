@@ -29,3 +29,5 @@ Clusters
 Concept
 ConceptLabel
 
+#owl files
+*.owl
