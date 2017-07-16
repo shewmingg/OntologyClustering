@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/icu4j-3.4.4.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/xercesImpl-2.7.1.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/slf4j-log4j12-1.5.6.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/iri-0.7.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/jena-2.6.2.jar"/>
+	<classpathentry kind="lib" path="/Users/gaozhiming/Downloads/edu.mit.jwi_2.4.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
