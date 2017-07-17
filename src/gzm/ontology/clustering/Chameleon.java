@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class Chameleon {
+public class Chameleon extends Clustering {
 	
 	int __k;
 	double __metric;

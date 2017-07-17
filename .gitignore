@@ -31,3 +31,6 @@ ConceptLabel
 
 #owl files
 *.owl
+
+#class files
+*.class
