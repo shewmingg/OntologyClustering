@@ -31,12 +31,18 @@ public class OntologyClusterGenerator {
 		ArrayList<String> conceptLabel = util.readArrayList("ConceptLabel",__folder);
 		System.out.println("read similarity, conceptlabel file completed");
 		
-		//knn k;
-		int k=1;
-		//metric
-		double minMetric = 0.1;
-		Clustering c = new Chameleon(k, minMetric, Sim,conceptLabel);
+//		//knn k;
+//		int k=1;
+//		//metric
+//		double minMetric = 0.1;
+//		Clustering c = new Chameleon(k, minMetric, Sim,conceptLabel);
+		
+		int k = 69;
+		Clustering c = new KMeans(k,Sim);
+		
 		c.buildClusters();
+		
+		
 		
 		ArrayList<Cluster> clusters = c.getClusters();
 		
