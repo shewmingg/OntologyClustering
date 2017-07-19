@@ -37,7 +37,7 @@ public class OntologyClusterGenerator {
 //		double minMetric = 0.1;
 //		Clustering c = new Chameleon(k, minMetric, Sim,conceptLabel);
 		
-		int k = 69;
+		int k = 1000;
 		Clustering c = new KMeans(k,Sim);
 		
 		c.buildClusters();
