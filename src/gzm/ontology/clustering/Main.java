@@ -19,10 +19,12 @@ public class Main {
 		
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
+		
 		ocgm.Generate();
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
 				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
 		ocgh.Generate();
+		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies
 		ArrayList<Cluster> c1 = util.readCluster("Clusters", folder1);
