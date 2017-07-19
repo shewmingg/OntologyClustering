@@ -18,13 +18,11 @@ public class Chameleon extends Clustering {
 	
 	ArrayList<Cluster> __initClusters;
 	ArrayList<Cluster> __finalClusters;
-	ArrayList<String> __concepts;
 	
-	public Chameleon(int k, double metric, ArrayList<List<Float>> Sim, ArrayList<String> concepts){
+	public Chameleon(int k, double metric, ArrayList<List<Float>> Sim){
 		__k = k;
 		__metric = metric;
 		__Sim = Sim;
-		__concepts = concepts;
 		for(int i=0;i<Sim.size();i++){
 			List<Integer> a = new ArrayList<Integer>(Collections.nCopies(Sim.size(),0));
 			__edges.add(a);
