@@ -22,11 +22,7 @@ public class Chameleon extends Clustering {
 	public Chameleon(int k, double metric, ArrayList<List<Float>> Sim){
 		__k = k;
 		__metric = metric;
-		__Sim = Sim;
-		for(int i=0;i<Sim.size();i++){
-			List<Integer> a = new ArrayList<Integer>(Collections.nCopies(Sim.size(),0));
-			__edges.add(a);
-		}
+
 	}
 	
 	public void KNN(){
@@ -241,48 +237,17 @@ public class Chameleon extends Clustering {
 			return RC;
 		}
 		
-		public void saveClusters(String fileName, ArrayList<Cluster> a, ArrayList<String> concepts){
-			BufferedWriter bw = null;
-			FileWriter fw = null;
-			try {			
-				fw = new FileWriter(fileName);
-				bw = new BufferedWriter(fw);
-				for(int i=0;i<a.size();i++){
-					bw.write(i+":");
-					ArrayList<Integer> ids = a.get(i).getIndexes();
-					for(int j=0;j<ids.size();j++){
-						bw.write(ids.get(j)+" "+concepts.get(ids.get(j))+ "||");
-					}
-					bw.write("\n");
-				}
-				System.out.println("clusters written");
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			} finally {
-
-				try {
-					if (bw != null)
-						bw.close();
-
-					if (fw != null)
-						fw.close();
-
-				} catch (IOException ex) {
-
-					ex.printStackTrace();
-
-				}
-
-			}
-		}
+		
 		public ArrayList<Cluster> getClusters(){
 			return __finalClusters;
 		}
 		
-		public void buildClusters(){
+		public void buildClusters(ArrayList<List<Float>> Sim){
+			__Sim = Sim;
+			for(int i=0;i<Sim.size();i++){
+				List<Integer> a = new ArrayList<Integer>(Collections.nCopies(Sim.size(),0));
+				__edges.add(a);
+			}
 			KNN();
 			searchSmallCluster();
 //			printClusters(__initClusters);

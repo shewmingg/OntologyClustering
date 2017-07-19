@@ -17,7 +17,8 @@ public class OntologyClusterGenerator {
 		__ontoName = ontoName;
 		__absolutePath = absolutePath;
 	}
-	public void Generate(){	
+	//using c clustering method to cluster
+	public void Generate(Clustering c){	
 		OntologyIterator oiter = new OntologyIterator(__fileName,__folder,__ontoName,__absolutePath);
 		//first time generate
 //		oiter.Iterate();
@@ -31,16 +32,9 @@ public class OntologyClusterGenerator {
 		ArrayList<String> conceptLabel = util.readArrayList("ConceptLabel",__folder);
 		System.out.println("read similarity, conceptlabel file completed");
 		
-//		//knn k;
-//		int k=1;
-//		//metric
-//		double minMetric = 0.1;
-//		Clustering c = new Chameleon(k, minMetric, Sim);
+
 		
-		int k = 67;
-		Clustering c = new KMeans(k,Sim);
-		
-		c.buildClusters();
+		c.buildClusters(Sim);
 		
 		
 		

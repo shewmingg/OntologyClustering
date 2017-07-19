@@ -8,14 +8,15 @@ public class KMeans extends Clustering{
 	int __k;//k centers
 	ArrayList<List<Float>> __Sim;
 	ArrayList<Cluster> __clusters;
-	public KMeans(int k, ArrayList<List<Float>> Sim){
+	public KMeans(int k){
 		__k = k;	
-		__Sim = Sim;	
+			
 		__clusters = new ArrayList<Cluster>();
 	}
 	
 	@Override
-	void buildClusters() {
+	void buildClusters( ArrayList<List<Float>> Sim) {
+		__Sim = Sim;
 		//ArrayList<List<Float>> means = GenerateKMeans(__k);
 		ArrayList<List<Float>> means = GenerateKMeans(__k, __Sim);
 		

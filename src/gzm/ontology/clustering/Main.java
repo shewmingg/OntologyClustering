@@ -17,13 +17,23 @@ public class Main {
 		String folder1 = "./mouse/";
 		String folder2 = "./human/";
 		
+		
+//		//knn k;
+//		int k=1;
+//		//metric
+//		double minMetric = 0.1;
+//		Clustering c = new Chameleon(k, minMetric);
+		
+		int k = 67;
+		Clustering c = new KMeans(k);
+		
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 		
-		ocgm.Generate();
+		ocgm.Generate(c);
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
 				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
-		ocgh.Generate();
+		ocgh.Generate(c);
 		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies

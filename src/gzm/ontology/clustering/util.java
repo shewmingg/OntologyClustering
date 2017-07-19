@@ -337,5 +337,41 @@ public final class util {
 		}
 		return a;
 	}
-	
+	public void SaveClustersWithConceptLabel(String fileName, ArrayList<Cluster> a, ArrayList<String> conceptLabel){
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		try {			
+			fw = new FileWriter(fileName);
+			bw = new BufferedWriter(fw);
+			for(int i=0;i<a.size();i++){
+				bw.write(i+":");
+				ArrayList<Integer> ids = a.get(i).getIndexes();
+				for(int j=0;j<ids.size();j++){
+					bw.write(ids.get(j)+" "+conceptLabel.get(ids.get(j))+ "||");
+				}
+				bw.write("\n");
+			}
+			System.out.println("clusters written");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+	}
 }
