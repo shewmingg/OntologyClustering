@@ -36,7 +36,6 @@ public class OntologyIterator {
 		__m = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
 		try {
 			__m.read(__absolutePath);
-		//	__m.read("file://"+__filePath + __fileName);
 		}
 		catch (com.hp.hpl.jena.shared.WrappedIOException e) {
 			if (e.getCause() instanceof java.io.FileNotFoundException) {
@@ -62,17 +61,27 @@ public class OntologyIterator {
 		util.writeArrayList("ConceptLabel",__ConceptLabel,__filePath);
 	}
 	
-	public void IterateClass(int ParIdx, OntClass cls){
+	public void IterateClass(int ParIdx, OntClass cls, String SimilarityType){
+		//check the concept's validity
 		if(LegalCheck(cls)){	
+			//concept hasn't been recorded
 			if(!__Concept.contains(cls.getLocalName())){
+				
+				//add concept id and label to the arrays respectively
 				__Concept.add(cls.getLocalName());
 				__ConceptLabel.add(cls.getLabel(new String()));
+				
+				//increase the capacity of Similarity and Distance matrix
 				enlarge2dArray((ArrayList<List<Float>>) __SimMat);
 				enlarge2dArray((ArrayList<List<Float>>) __DisMat);
+				
+				//increase the depth array
 				__DepMat.add(0);
+				
+				//set distance and depth of the concept
 				autoSetDistAndDep(ParIdx, __Concept.indexOf(cls.getLocalName()));
-			//	String tmp = null;
-			//	System.out.println(cls.getLabel(tmp));
+			
+			//concept already appeared before
 			}else{
 				if(ParIdx!=-1){
 					for(int i=0;i<__DisMat.size();i++){
@@ -86,15 +95,16 @@ public class OntologyIterator {
 				}
 			}
 		}
+		//depth first iterate every leaves of it.
 		if (cls.canAs(OntClass.class)) {
 			for (Iterator<OntClass> i = cls.listSubClasses(true); i.hasNext();) {
 				OntClass sub = i.next();
-				IterateClass(__Concept.indexOf(cls.getLocalName()), sub);	
-				
+				IterateClass(__Concept.indexOf(cls.getLocalName()), sub);			
 			}
 		}
 		
 	}
+	//given the parent index, set the child concept's distance and depth.
 	public void autoSetDistAndDep(int ParIdx, int CldIdx){
 		if(ParIdx!=-1){
 			for(int i=0;i<__DisMat.size();i++){
@@ -152,6 +162,8 @@ public class OntologyIterator {
 		}
 		return false;
 	}
+	
+	
 	protected void enlarge2dArray(ArrayList<List<Float>> a){
 		for(List<Float> temp: a){
 			temp.add((float)0);
