@@ -31,7 +31,7 @@ public final class util {
 				}
 				dbArray.add((List<Float>) tmp);
 			}	
-						
+			System.out.println(fileName +" readed");		
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,6 +39,7 @@ public final class util {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		return dbArray;
 	}
 	public static ArrayList<List<Float>> readDoubleArrayList(String fileName, String folder){
@@ -61,7 +62,7 @@ public final class util {
 				}
 				dbArray.add((List<Float>) tmp);
 			}	
-						
+			System.out.println(folder+"/"+fileName +" readed");		
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,6 +70,7 @@ public final class util {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return dbArray;
 	}
 	public static <T> ArrayList<T> readArrayList(String fileName){
@@ -85,7 +87,7 @@ public final class util {
 				line = br.readLine();
 				array.add((T)line.trim());
 			}	
-						
+			System.out.println(fileName +" readed");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,6 +95,7 @@ public final class util {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		return array;
 	}
 	public static <T> ArrayList<T> readArrayList(String fileName,String folder){
@@ -109,6 +112,7 @@ public final class util {
 				line = br.readLine();
 				array.add((T)line.trim());
 			}	
+			System.out.println(folder+"/"+fileName +" readed");
 						
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -319,7 +323,7 @@ public final class util {
 					c.get(i).AddIndex(Integer.valueOf(a[j]));
 				}
 			}	
-						
+			System.out.println(folder+"/"+fileName +" cluster readed");	
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

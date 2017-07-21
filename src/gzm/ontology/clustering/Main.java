@@ -18,15 +18,15 @@ public class Main {
 		String folder2 = "./human/";
 		
 		
-//		//knn k;
-//		int k=1;
-//		//metric
-//		double minMetric = 0.1;
-//		Clustering c = new Chameleon(k, minMetric);
+		//knn k;
+		int k=1;
+		//metric
+		double minMetric = 0.1;
+		Clustering c = new Chameleon(k, minMetric);
 		
-		int k = 67;
-		Clustering c = new KMeans(k);
-		
+//		int k = 67;
+//		Clustering c = new KMeans(k);
+//		
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 		

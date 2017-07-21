@@ -19,7 +19,7 @@ public class Chameleon extends Clustering {
 	ArrayList<Cluster> __initClusters;
 	ArrayList<Cluster> __finalClusters;
 	
-	public Chameleon(int k, double metric, ArrayList<List<Double>> Sim){
+	public Chameleon(int k, double metric){
 		__k = k;
 		__metric = metric;
 
