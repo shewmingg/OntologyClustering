@@ -34,7 +34,7 @@ public class Cluster {
 	
 	
 	
-	public double calEC(ArrayList<List<Float>> Sim,ArrayList<List<Integer>> Edge) {
+	public double calEC(ArrayList<List<Double>> Sim,ArrayList<List<Integer>> Edge) {
 		__weightSum = 0;
 		for(int i: __ids){
 			for(int j: __ids){
@@ -47,7 +47,7 @@ public class Cluster {
 	}
 	
 	//calculate n nearestEdge to otherCluster
-	public ArrayList<int[]> calNearestEdge(Cluster otherCluster, int n, ArrayList<List<Float>> Sim){
+	public ArrayList<int[]> calNearestEdge(Cluster otherCluster, int n, ArrayList<List<Double>> Sim){
 		int count = 0;
 		double distance = 0;
 		double minDistance = Integer.MAX_VALUE;

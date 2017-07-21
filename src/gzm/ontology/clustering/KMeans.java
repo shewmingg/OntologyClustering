@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class KMeans extends Clustering{
 	int __k;//k centers
-	ArrayList<List<Float>> __Sim;
+	ArrayList<List<Double>> __Sim;
 	ArrayList<Cluster> __clusters;
 	public KMeans(int k){
 		__k = k;	
@@ -15,10 +15,10 @@ public class KMeans extends Clustering{
 	}
 	
 	@Override
-	void buildClusters( ArrayList<List<Float>> Sim) {
+	void buildClusters( ArrayList<List<Double>> Sim) {
 		__Sim = Sim;
-		//ArrayList<List<Float>> means = GenerateKMeans(__k);
-		ArrayList<List<Float>> means = GenerateKMeans(__k, __Sim);
+		//ArrayList<List<Double>> means = GenerateKMeans(__k);
+		ArrayList<List<Double>> means = GenerateKMeans(__k, __Sim);
 		
 		ArrayList<List<Integer>> ids = new ArrayList<List<Integer>>(); // store each k's nodes.
 		//init
@@ -40,13 +40,13 @@ public class KMeans extends Clustering{
 			}
 		}	
 	}
-	private void GenerateClusters(ArrayList<List<Float>> means, ArrayList<List<Integer>> ids){
+	private void GenerateClusters(ArrayList<List<Double>> means, ArrayList<List<Integer>> ids){
 		//clear the ids, for re generate clusters
 		for(int i=0;i<ids.size();i++){
 			ids.get(i).clear();
 		}
 		for(int i=0;i<__Sim.size();i++){
-			List<Float> dists = new ArrayList<Float>();
+			List<Double> dists = new ArrayList<Double>();
 			for(int j=0;j<means.size();j++){
 				dists.add(CalcDistance(__Sim.get(i), means.get(j)));
 			}
@@ -55,16 +55,16 @@ public class KMeans extends Clustering{
 	}
 
 	//parameter means changed to the new mean of each cluster, return true if some means changed
-	private boolean RecalcMeans(ArrayList<List<Float>> means, ArrayList<List<Integer>> ids){
-		List<Float> tmp;
+	private boolean RecalcMeans(ArrayList<List<Double>> means, ArrayList<List<Integer>> ids){
+		List<Double> tmp;
 		boolean flag = false;
 		for(int i=0;i<means.size();i++){
 			//only if the cluster has some nodes
 			if(ids.get(i).size()!=0){
-				tmp = new ArrayList<Float>(means.get(i));
+				tmp = new ArrayList<Double>(means.get(i));
 				means.get(i).clear();//reset means
 				for(int j=0;j<__Sim.size();j++){
-					float total = 0;//sum of number in jth index.
+					double total = 0;//sum of number in jth index.
 					for(int k=0;k<ids.get(i).size();k++){
 						total+=__Sim.get(ids.get(i).get(k)).get(j);
 					}
@@ -78,8 +78,8 @@ public class KMeans extends Clustering{
 		}
 		return flag;
 	}
-	private int FindSmallestIndex(List<Float> a){
-		Float sm = Float.MAX_VALUE;
+	private int FindSmallestIndex(List<Double> a){
+		Double sm = Double.MAX_VALUE;
 		int index = -1;
 		for(int i=0;i<a.size();i++){
 			if(sm> a.get(i)){
@@ -90,30 +90,30 @@ public class KMeans extends Clustering{
 		return index;
 	}
 	
-	private float CalcDistance(List<Float> a, List<Float> b){
-		float result=0;
+	private double CalcDistance(List<Double> a, List<Double> b){
+		double result=0;
 		for(int i = 0;i<a.size();i++){
 			result += Math.pow(a.get(i)-b.get(i),2);
 		}
-		return (float) Math.sqrt(result);
+		return (double) Math.sqrt(result);
 	}
-	private ArrayList<List<Float>> GenerateKMeans(int k){
+	private ArrayList<List<Double>> GenerateKMeans(int k){
 		Random rand = new Random();
-		ArrayList<List<Float>> means = new ArrayList<List<Float>>();
+		ArrayList<List<Double>> means = new ArrayList<List<Double>>();
 		for(int i=0;i<k;i++){
-			ArrayList<Float> mean = new ArrayList<Float>();
+			ArrayList<Double> mean = new ArrayList<Double>();
 			for(int j=0;j<__Sim.size();j++){
-				mean.add(rand.nextFloat());
+				mean.add(rand.nextDouble());
 			}
 			means.add(mean);
 		}
 		return means;
 	}
-	private ArrayList<List<Float>> GenerateKMeans(int k, ArrayList<List<Float>> Sim){
-		ArrayList<List<Float>> means = new ArrayList<List<Float>>();
+	private ArrayList<List<Double>> GenerateKMeans(int k, ArrayList<List<Double>> Sim){
+		ArrayList<List<Double>> means = new ArrayList<List<Double>>();
 		Random rand = new Random();
 		for(int i=0;i<k;i++){
-			means.add(new ArrayList<Float>(Sim.get(rand.nextInt(Sim.size()))));
+			means.add(new ArrayList<Double>(Sim.get(rand.nextInt(Sim.size()))));
 		}
 		return means;
 	}

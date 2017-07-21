@@ -21,17 +21,17 @@ public class OntologyClusterGenerator {
 	public void Generate(Clustering c){	
 		OntologyIterator oiter = new OntologyIterator(__fileName,__folder,__ontoName,__absolutePath);
 		//first time generate
-//		oiter.Iterate();
-//		ArrayList<String> conceptLabel = oiter.getConceptLabel();
-//		ArrayList<List<Float>> Sim = oiter.getSim();
+		oiter.Iterate("WU");
+		ArrayList<String> conceptLabel = oiter.getConceptLabel();
+		ArrayList<List<Double>> Sim = oiter.getSim();
 
 
 		
 		// second time read from files		
-		ArrayList<List<Float>> Sim = util.readDoubleArrayList("Similarity",__folder);
-		ArrayList<String> conceptLabel = util.readArrayList("ConceptLabel",__folder);
-		System.out.println("read similarity, conceptlabel file completed");
-		
+//		ArrayList<List<Float>> Sim = util.readDoubleArrayList("Similarity",__folder);
+//		ArrayList<String> conceptLabel = util.readArrayList("ConceptLabel",__folder);
+//		System.out.println("read similarity, conceptlabel file completed");
+//		
 
 		
 		c.buildClusters(Sim);

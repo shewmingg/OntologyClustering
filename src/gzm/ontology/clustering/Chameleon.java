@@ -14,22 +14,22 @@ public class Chameleon extends Clustering {
 	int __k;
 	double __metric;
 	List<List<Integer>> __edges = new ArrayList<List<Integer>>(); 
-	List<List<Float>> __Sim;
+	List<List<Double>> __Sim;
 	
 	ArrayList<Cluster> __initClusters;
 	ArrayList<Cluster> __finalClusters;
 	
-	public Chameleon(int k, double metric, ArrayList<List<Float>> Sim){
+	public Chameleon(int k, double metric, ArrayList<List<Double>> Sim){
 		__k = k;
 		__metric = metric;
 
 	}
 	
 	public void KNN(){
-		List<Float> tempSim;
+		List<Double> tempSim;
 		ArrayList<Integer> idx;
 		for(int i=0;i<__Sim.size();i++){
-			tempSim =new ArrayList<Float>(__Sim.get(i));
+			tempSim =new ArrayList<Double>(__Sim.get(i));
 			idx = sortSim(tempSim);
 			for(int j=0;j<idx.size();j++){
 				if(j<__k){
@@ -40,8 +40,8 @@ public class Chameleon extends Clustering {
 		}
 	}
 	// return descending index array of Sim
-		private ArrayList<Integer> sortSim(List<Float> array) {
-			List<Float> copyArray = new ArrayList<Float>(array);
+		private ArrayList<Integer> sortSim(List<Double> array) {
+			List<Double> copyArray = new ArrayList<Double>(array);
 			//Collections.sort(copyArray);
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			int k = 0;
@@ -58,7 +58,7 @@ public class Chameleon extends Clustering {
 				}	
 				if(maxWeight>0){
 					ids.add(k);			
-					copyArray.set(k, (float)0);
+					copyArray.set(k, (double)0);
 				}
 				else{
 					break;
@@ -172,7 +172,7 @@ public class Chameleon extends Clustering {
 		private void connectClusterToCluster(Cluster c1, Cluster c2){
 			ArrayList<int[]> connectedEdges;
 			
-			connectedEdges = c1.calNearestEdge(c2, 2,(ArrayList<List<Float>>)__Sim);
+			connectedEdges = c1.calNearestEdge(c2, 2,(ArrayList<List<Double>>)__Sim);
 			
 			for(int[] array: connectedEdges){
 				__edges.get(array[0]).set(array[1], 1);
@@ -198,8 +198,8 @@ public class Chameleon extends Clustering {
 			double EC2 = 0;
 			double EC1To2 = 0;
 
-			EC1 = c1.calEC((ArrayList<List<Float>>)__Sim, (ArrayList<List<Integer>>)__edges);
-			EC2 = c2.calEC((ArrayList<List<Float>>)__Sim, (ArrayList<List<Integer>>)__edges);
+			EC1 = c1.calEC((ArrayList<List<Double>>)__Sim, (ArrayList<List<Integer>>)__edges);
+			EC2 = c2.calEC((ArrayList<List<Double>>)__Sim, (ArrayList<List<Integer>>)__edges);
 			EC1To2 = calEC(c1, c2);
 			if((EC1+EC2)!=0){
 				RI = 2 * EC1To2 / (EC1 + EC2);
@@ -211,7 +211,7 @@ public class Chameleon extends Clustering {
 			double resultEC = 0;
 			ArrayList<int[]> connectedEdges = null;
 
-			connectedEdges = c1.calNearestEdge(c2, 2,(ArrayList<List<Float>>)__Sim);
+			connectedEdges = c1.calNearestEdge(c2, 2,(ArrayList<List<Double>>)__Sim);
 			//cal summed weights connecting two clusters c1 c2
 			for (int[] array : connectedEdges) {
 				resultEC += __Sim.get(array[0]).get(array[1]);
@@ -228,8 +228,8 @@ public class Chameleon extends Clustering {
 			int pNum1 = c1.getIndexes().size();
 			int pNum2 = c2.getIndexes().size();
 
-			EC1 = c1.calEC((ArrayList<List<Float>>)__Sim, (ArrayList<List<Integer>>)__edges);
-			EC2 = c2.calEC((ArrayList<List<Float>>)__Sim, (ArrayList<List<Integer>>)__edges);
+			EC1 = c1.calEC((ArrayList<List<Double>>)__Sim, (ArrayList<List<Integer>>)__edges);
+			EC2 = c2.calEC((ArrayList<List<Double>>)__Sim, (ArrayList<List<Integer>>)__edges);
 			EC1To2 = calEC(c1, c2);
 			if((pNum2 * EC1 + pNum1 * EC2)!=0){
 			RC = EC1To2 * (pNum1 + pNum2) / (pNum2 * EC1 + pNum1 * EC2);
@@ -242,7 +242,7 @@ public class Chameleon extends Clustering {
 			return __finalClusters;
 		}
 		
-		public void buildClusters(ArrayList<List<Float>> Sim){
+		public void buildClusters(ArrayList<List<Double>> Sim){
 			__Sim = Sim;
 			for(int i=0;i<Sim.size();i++){
 				List<Integer> a = new ArrayList<Integer>(Collections.nCopies(Sim.size(),0));
