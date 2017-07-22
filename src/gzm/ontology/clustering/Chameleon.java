@@ -27,15 +27,29 @@ public class Chameleon extends Clustering {
 	
 	public void KNN(){
 		List<Double> tempSim;
-		ArrayList<Integer> idx;
+		ArrayList<Integer> idxes;
+		QuickSort qs;
 		for(int i=0;i<__Sim.size();i++){
 			tempSim =new ArrayList<Double>(__Sim.get(i));
-			idx = sortSim(tempSim);
-			for(int j=0;j<idx.size();j++){
-				if(j<__k){
-					__edges.get(i).set(idx.get(j), 1);
-					__edges.get(idx.get(j)).set(i, 1);
+			//idx = sortSim(tempSim);
+			
+			idxes = new QuickSort().sort(tempSim);
+			//delete the concept similarity to itself.
+			int count = 0;
+			int idx = 0;
+			while(count<__k){
+				// if similarity equals 0, break;
+				if(__Sim.get(i).get(idxes.get(idx))==0){
+					break;
 				}
+				//if it's not the concept pointed to itself
+				if(idxes.get(idx) != i){
+					//connect the two concept
+					__edges.get(i).set(idxes.get(idx), 1);
+					__edges.get(idxes.get(idx)).set(i, 1);
+					count ++;
+				}
+				idx ++;
 			}
 		}
 	}

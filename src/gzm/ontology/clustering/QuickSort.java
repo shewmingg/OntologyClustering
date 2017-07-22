@@ -1,15 +1,16 @@
 package gzm.ontology.clustering;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //specialized quicksort for this program. also maintain the index of the values
 public class QuickSort  {
-    private ArrayList<Double> __numbers;
+    private List<Double> __numbers;
     private int __size;
     private ArrayList<Integer> __idxes;
     
     //return descending indexes.
-    public ArrayList<Integer> sort(ArrayList<Double> values) {
+    public ArrayList<Integer> sort(List<Double> values) {
     	__idxes = new ArrayList<Integer>();
     	for(int i=0;i<values.size();i++){
     		__idxes.add(i);
