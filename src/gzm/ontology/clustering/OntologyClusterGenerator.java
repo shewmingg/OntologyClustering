@@ -55,7 +55,7 @@ public class OntologyClusterGenerator {
 		ArrayList<List<Double>> cos = te.calculateCosSim((ArrayList<List<Double>>)tfidf);
 		
 		util.writeDoubleArrayList("cos",(ArrayList<List<Double>>)cos,__folder);
-		te.mergeClustersWithCos(0.5, cos, clusters);
+		te.mergeClustersWithCos(1, cos, clusters);
 		//c.saveClusters("fc", clusters, conceptLabel,__folder);
 		util.writeCluster("Clusters", clusters, __folder);
 		__clusters = clusters;

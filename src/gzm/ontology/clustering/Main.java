@@ -46,7 +46,8 @@ public class Main {
 		
 		//align the clusters in two ontology, yield the matching proposal of each concept in first ontology
 		Alignment alm = new Alignment();
-		Map<String,List<String>> m = alm.AlignOntologies(c1, c2, l1, l2, conceptIds1, conceptIds2);
+		double alignMetric = 0.05;
+		Map<String,List<String>> m = alm.AlignOntologies(c1, c2, l1, l2, conceptIds1, conceptIds2, alignMetric);
 		
 		//evaluation
 		Evaluation eva = new Evaluation();

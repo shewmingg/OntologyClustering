@@ -9,7 +9,7 @@ public class Alignment {
 	
 	public Map<String, List<String>> AlignOntologies(ArrayList<Cluster> c1, ArrayList<Cluster> c2,
 			ArrayList<String> conceptLabel1, ArrayList<String> conceptLabel2,
-			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2
+			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2, double metric
 			) {
 		// c1 and c2 vsm
 		List<List<String>> clusterText = new ArrayList<List<String>>();
@@ -27,8 +27,7 @@ public class Alignment {
 		// VSM cosine similarity
 		List<List<Double>> cos = te.calculateCosSim((ArrayList<List<Double>>) tfidf);
 
-		// metric that determine if two clusters are matched
-		double metric = 0.7;
+
 		// get mapped cluster
 
 		// suggested map of every cluster's concepts in first ontology
