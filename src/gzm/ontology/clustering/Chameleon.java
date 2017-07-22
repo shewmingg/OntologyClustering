@@ -28,7 +28,6 @@ public class Chameleon extends Clustering {
 	public void KNN(){
 		List<Double> tempSim;
 		ArrayList<Integer> idxes;
-		QuickSort qs;
 		for(int i=0;i<__Sim.size();i++){
 			tempSim =new ArrayList<Double>(__Sim.get(i));
 			//idx = sortSim(tempSim);
@@ -53,35 +52,7 @@ public class Chameleon extends Clustering {
 			}
 		}
 	}
-	// return descending index array of Sim
-		private ArrayList<Integer> sortSim(List<Double> array) {
-			List<Double> copyArray = new ArrayList<Double>(array);
-			//Collections.sort(copyArray);
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			int k = 0;
-			double maxWeight = 0;
-			
-			for(int i=0; i<copyArray.size(); i++){
-				maxWeight = 0;
-				
-				for(int j=0; j<copyArray.size(); j++){
-					if(copyArray.get(j) > maxWeight){
-						 maxWeight = copyArray.get(j);
-						 k = j;
-					}
-				}	
-				if(maxWeight>0){
-					ids.add(k);			
-					copyArray.set(k, (double)0);
-				}
-				else{
-					break;
-				}
-				
-			}
-			
-			return ids;
-		}
+	
 		private void searchSmallCluster() {
 			int currentId = 0;
 			Cluster cluster;
