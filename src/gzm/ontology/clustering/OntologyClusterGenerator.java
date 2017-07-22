@@ -18,7 +18,7 @@ public class OntologyClusterGenerator {
 		__absolutePath = absolutePath;
 	}
 	//using c clustering method to cluster
-	public void Generate(Clustering c){	
+	public void Generate(Clustering c, double mergeMetric){	
 		OntologyIterator oiter = new OntologyIterator(__fileName,__folder,__ontoName,__absolutePath);
 		//first time generate
 		oiter.Iterate("WU");
@@ -55,7 +55,7 @@ public class OntologyClusterGenerator {
 		ArrayList<List<Double>> cos = te.calculateCosSim((ArrayList<List<Double>>)tfidf);
 		
 		util.writeDoubleArrayList("cos",(ArrayList<List<Double>>)cos,__folder);
-		te.mergeClustersWithCos(1, cos, clusters);
+		te.mergeClustersWithCos(mergeMetric, cos, clusters);
 		//c.saveClusters("fc", clusters, conceptLabel,__folder);
 		util.writeCluster("Clusters", clusters, __folder);
 		__clusters = clusters;

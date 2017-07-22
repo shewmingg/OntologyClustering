@@ -27,13 +27,15 @@ public class Main {
 //		int k = 67;
 //		Clustering c = new KMeans(k);
 //		
+		
+		double mergeMetric = 1.0;
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 		
-		ocgm.Generate(c);
+		ocgm.Generate(c, mergeMetric);
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
 				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
-		ocgh.Generate(c);
+		ocgh.Generate(c, mergeMetric);
 		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies
