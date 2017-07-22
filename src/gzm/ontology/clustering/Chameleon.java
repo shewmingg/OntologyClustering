@@ -244,6 +244,7 @@ public class Chameleon extends Clustering {
 		
 		public void buildClusters(ArrayList<List<Double>> Sim){
 			__Sim = Sim;
+			__edges.clear();
 			for(int i=0;i<Sim.size();i++){
 				List<Integer> a = new ArrayList<Integer>(Collections.nCopies(Sim.size(),0));
 				__edges.add(a);
