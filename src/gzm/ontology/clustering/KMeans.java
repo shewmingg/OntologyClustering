@@ -18,8 +18,8 @@ public class KMeans extends Clustering{
 	@Override
 	void buildClusters( ArrayList<List<Double>> Sim) {
 		__Sim = Sim;
-		//ArrayList<List<Double>> means = GenerateKMeans(__k);
-		ArrayList<List<Double>> means = GenerateKMeans(__k, __Sim);
+		ArrayList<List<Double>> means = GenerateKMeans(__k);
+		//ArrayList<List<Double>> means = GenerateKMeans(__k, __Sim);
 		
 		ArrayList<List<Integer>> ids = new ArrayList<List<Integer>>(); // store each k's nodes.
 		//init
@@ -40,6 +40,7 @@ public class KMeans extends Clustering{
 				__clusters.add(new Cluster(i,(ArrayList<Integer>) ids.get(i)));  
 			}
 		}	
+		System.out.println("KMeans clusters generated");
 	}
 	private void GenerateClusters(ArrayList<List<Double>> means, ArrayList<List<Integer>> ids){
 		//clear the ids, for re generate clusters

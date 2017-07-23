@@ -24,7 +24,7 @@ public class Main {
 //		double minMetric = 0.1;
 //		Clustering c = new Chameleon(k, minMetric);
 		
-		int k = 100;
+		int k = 1000;
 		Clustering ca1 = new KMeans(k);
 		Clustering ca2 = new KMeans(k);
 		

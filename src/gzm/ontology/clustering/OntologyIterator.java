@@ -133,13 +133,23 @@ public class OntologyIterator {
 	public void autoSetDistAndDep(int ParIdx, int CldIdx){
 		if(ParIdx!=-1){
 			for(int i=0;i<__dist.size();i++){
+				//parent concept's connections
 				if(__dist.get(ParIdx).get(i)!=0)
-					__dist.get(CldIdx).set(i, __dist.get(ParIdx).get(i)+1);
+					//select the longest path as the distance
+					if(__dist.get(CldIdx).get(i)<__dist.get(ParIdx).get(i)+1){
+						__dist.get(CldIdx).set(i, __dist.get(ParIdx).get(i)+1);
+					}
 			}		
 			__dist.get(CldIdx).set(ParIdx, 1);
-			__depth.set(CldIdx, __depth.get(ParIdx)+1);
+			//select the longest path as depth
+			if(__depth.get(CldIdx)<__depth.get(ParIdx)+1){
+				__depth.set(CldIdx, __depth.get(ParIdx)+1);
+			}
 		}else{
-			__depth.set(CldIdx, 1);
+			//select the longest path as depth
+			if(__depth.get(CldIdx)<1){
+				__depth.set(CldIdx, 1);
+			}
 		}
 		
 	}
