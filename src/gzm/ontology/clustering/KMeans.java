@@ -1,6 +1,7 @@
 package gzm.ontology.clustering;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -111,10 +112,21 @@ public class KMeans extends Clustering{
 	}
 	private ArrayList<List<Double>> GenerateKMeans(int k, ArrayList<List<Double>> Sim){
 		ArrayList<List<Double>> means = new ArrayList<List<Double>>();
+		ArrayList<Integer> visited = new ArrayList<Integer>(Collections.nCopies(Sim.size(), 0));
 		Random rand = new Random();
-		for(int i=0;i<k;i++){
-			means.add(new ArrayList<Double>(Sim.get(rand.nextInt(Sim.size()))));
+		
+		int selected=-1;
+		int count =0;
+		while(count<k){
+			selected = rand.nextInt(Sim.size());
+			if(visited.get(selected) == 0){
+				visited.set(selected, 1);
+				means.add(new ArrayList<Double>(Sim.get(selected)));
+				count ++;
+			}
+			
 		}
+
 		return means;
 	}
 	

@@ -18,24 +18,24 @@ public class Main {
 		String folder2 = "./human/";
 		
 		
-		//knn k;
-		int k=1;
-		//metric
-		double minMetric = 0.1;
-		Clustering c = new Chameleon(k, minMetric);
+//		//knn k;
+//		int k=1;
+//		//metric
+//		double minMetric = 0.1;
+//		Clustering c = new Chameleon(k, minMetric);
 		
-//		int k = 67;
-//		Clustering c = new KMeans(k);
-//		
+		int k = 100;
+		Clustering ca1 = new KMeans(k);
+		Clustering ca2 = new KMeans(k);
 		
 		double mergeMetric = 1.0;
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 		
-		ocgm.Generate(c, mergeMetric);
+		ocgm.Generate(ca1, mergeMetric);
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
 				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
-		ocgh.Generate(c, mergeMetric);
+		ocgh.Generate(ca2, mergeMetric);
 		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies
