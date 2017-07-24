@@ -17,11 +17,11 @@ public class OntologyClusterGenerator {
 		__ontoName = ontoName;
 		__absolutePath = absolutePath;
 	}
-	//using c clustering method to cluster
-	public void Generate(Clustering c, double mergeMetric){	
+	//using c clustering method to cluster, based on "similarityType" similarity generation, mergeMetric defines the VSM's cos similarity threshold
+	public void Generate(String similarityType, Clustering c, double mergeMetric){	
 		OntologyIterator oiter = new OntologyIterator(__fileName,__folder,__ontoName,__absolutePath);
 		//first time generate
-		oiter.Iterate("WU");
+		oiter.Iterate(similarityType);
 		ArrayList<String> conceptLabel = oiter.getConceptLabel();
 		ArrayList<List<Double>> Sim = oiter.getSim();
 

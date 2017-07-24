@@ -174,12 +174,12 @@ public class OntologyIterator {
 			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
 			
 			for(int i=0;i<bss.size();i++){
-				for(int j=i+1;j<bss.size();j++){
-					BitSet tmp = bss.get(i);
+				for(int j=i;j<bss.size();j++){
+					BitSet tmp = (BitSet) bss.get(i).clone();
 					
 					tmp.and(bss.get(j));
 					up = tmp.cardinality();
-					tmp = bss.get(i);
+					tmp = (BitSet) bss.get(i).clone();
 					tmp.or(bss.get(j));
 					bot = tmp.cardinality();
 					__sim.get(i).set(j, 1.0*up/bot);
@@ -193,13 +193,13 @@ public class OntologyIterator {
 		}
 	}
 	
-	static public ArrayList<BitSet> TransToBitset(ArrayList<List<Integer>> a){
+	public ArrayList<BitSet> TransToBitset(ArrayList<List<Integer>> a){
 		ArrayList<BitSet> bss = new ArrayList<BitSet>();
 		for(int i=0;i<a.size();i++){
 			BitSet bs = new BitSet();
 			for(int j=0;j<a.get(i).size();j++){
 				if(a.get(i).get(j) == 1){
-					bs.set(a.get(i).get(j));
+					bs.set(j);
 				}
 			}
 			bss.add(bs);
