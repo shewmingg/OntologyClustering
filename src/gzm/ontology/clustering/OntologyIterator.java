@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -60,9 +61,8 @@ public class OntologyIterator {
 		for(int i=0;i<__conceptId.size();i++){
 			__sim.add(new ArrayList<Double>(Collections.nCopies(__conceptId.size(), (double)0)));
 		}
-		autoSetSim(similarityType);
-		//writeToFile("Sim",(ArrayList<List<Double>>)__sim);
-		//writeToFile("Dis",(ArrayList<List<Double>>)__dist);
+		GenerateSimilarity(similarityType);
+
 		util.writeDoubleArrayList("Similarity",(ArrayList<List<Double>>)__sim,__filePath);
 		util.writeArrayList("Concept",__conceptId,__filePath);
 		util.writeArrayList("ConceptLabel",__conceptLabel,__filePath);
@@ -94,6 +94,7 @@ public class OntologyIterator {
 						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx,1);
 						
 					}
+					//distance to itself
 					__dist.get(__conceptId.indexOf(cls.getLocalName())).set(__conceptId.indexOf(cls.getLocalName()),1);
 				}
 			
@@ -153,7 +154,7 @@ public class OntologyIterator {
 		}
 		
 	}
-	public void autoSetSim(String similarityType){
+	public void GenerateSimilarity(String similarityType){
 		if(similarityType.equalsIgnoreCase("WU")){
 			//every two concepts' least common parent, -1 if none
 			ArrayList<List<Integer>> cpidx = FindLeastCommonParent(__depth, (ArrayList<List<Integer>>) __dist, __depth.size());
@@ -167,45 +168,45 @@ public class OntologyIterator {
 				}
 			}
 			
-			
-			//old method
-//			double min=Double.MAX_VALUE;
-//			int index = -1;
-//			for(int i=0;i<__dist.size();i++){
-//				for(int j=0;j<__dist.size();j++){
-//					for(int k=0;k<__dist.get(i).size();k++){
-//						//find nearest common parent
-//						if(((__dist.get(i).get(k)!=0 && __dist.get(j).get(k)!=0) ||
-//								(__dist.get(i).get(k)!=0 && j==k) ||
-//								(__dist.get(j).get(k)!=0 &&i==k)) && i!=j){
-//							if(min>__dist.get(i).get(k)){
-//								min = __dist.get(i).get(k);
-//								index = k;
-//							}
-//						}						
-//					}
-//					if(index!=-1){
-//						__sim.get(i).set(j, 2*__depth.get(index)/(__dist.get(i).get(index)+
-//							__dist.get(j).get(index)+2*__depth.get(index)));
-//					}else{
-//						__sim.get(i).set(j, (double)0);
-//					}
-//					index = -1;
-//					min = Double.MAX_VALUE;
-//				}
-//	
-//			}
 		}else if(similarityType.equalsIgnoreCase("JACCARD")){
-			for(int i=0;i<__sim.size();i++){
-				for(int j=i;j<__sim.size();j++){
-					for(int k=0;k<__dist.size();k++){
-						
-					}
+			int up = 0;
+			int bot = 0;
+			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
+			
+			for(int i=0;i<bss.size();i++){
+				for(int j=i+1;j<bss.size();j++){
+					BitSet tmp = bss.get(i);
+					
+					tmp.and(bss.get(j));
+					up = tmp.cardinality();
+					tmp = bss.get(i);
+					tmp.or(bss.get(j));
+					bot = tmp.cardinality();
+					__sim.get(i).set(j, 1.0*up/bot);
+					__sim.get(j).set(i, 1.0*up/bot);
 				}
+				up = 0;
+				bot = 0;
 			}
+			
+			
 		}
 	}
 	
+	static public ArrayList<BitSet> TransToBitset(ArrayList<List<Integer>> a){
+		ArrayList<BitSet> bss = new ArrayList<BitSet>();
+		for(int i=0;i<a.size();i++){
+			BitSet bs = new BitSet();
+			for(int j=0;j<a.get(i).size();j++){
+				if(a.get(i).get(j) == 1){
+					bs.set(a.get(i).get(j));
+				}
+			}
+			bss.add(bs);
+		}
+		
+		return bss;
+	}
 	public ArrayList<List<Integer>> FindLeastCommonParent(ArrayList<Integer> depth, ArrayList<List<Integer>> dist, int size){
 		ArrayList<List<Integer>> cpidx = new ArrayList<List<Integer>>();
 		for(int i=0;i<size;i++){
