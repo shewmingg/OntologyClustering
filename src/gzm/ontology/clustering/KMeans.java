@@ -18,8 +18,8 @@ public class KMeans extends Clustering{
 	@Override
 	void buildClusters( ArrayList<List<Double>> Sim) {
 		__Sim = Sim;
-		ArrayList<List<Double>> means = GenerateKMeans(__k);
-		//ArrayList<List<Double>> means = GenerateKMeans(__k, __Sim);
+		//ArrayList<List<Double>> means = GenerateKMeans(__k);
+		ArrayList<List<Double>> means = GenerateKMeans(__k, __Sim);
 		
 		ArrayList<List<Integer>> ids = new ArrayList<List<Integer>>(); // store each k's nodes.
 		//init

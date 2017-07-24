@@ -14,8 +14,8 @@ import edu.mit.jwi.morph.WordnetStemmer;
 
 public class Main {
 	public static void main(String[] args) {
-		//String folder1 = "./mouse/";
-		String folder1 = "./university/";
+		String folder1 = "./mouse/";
+		//String folder1 = "./university/";
 		
 		String folder2 = "./human/";
 		
@@ -27,16 +27,16 @@ public class Main {
 //		Clustering ca1 = new Chameleon(k, minMetric);
 //		Clustering ca2 = new Chameleon(k, minMetric);
 		
-		int k = 1000;
+		int k = 500;
 		Clustering ca1 = new KMeans(k);
 		Clustering ca2 = new KMeans(k);
 		
 		double mergeMetric = 1.0;
-//		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
-//				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
-//	
-		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
-				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
+		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
+				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
+	
+//		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
+//				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
 		
 		ocgm.Generate(similarityType, ca1, mergeMetric);
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
