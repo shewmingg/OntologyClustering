@@ -19,17 +19,17 @@ public class Main {
 		
 		String folder2 = "./human/";
 		
-		String similarityType = "Jaccard";
-//		//knn k;
-//		int k=1;
-//		//metric
-//		double minMetric = 0.1;
-//		Clustering ca1 = new Chameleon(k, minMetric);
-//		Clustering ca2 = new Chameleon(k, minMetric);
+		String similarityType = "JACCARD";
+		//knn k;
+		int k=1;
+		//metric
+		double minMetric = 0.1;
+		Clustering ca1 = new Chameleon(k, minMetric);
+		Clustering ca2 = new Chameleon(k, minMetric);
 		
-		int k = 500;
-		Clustering ca1 = new KMeans(k);
-		Clustering ca2 = new KMeans(k);
+//		int k = 500;
+//		Clustering ca1 = new KMeans(k);
+//		Clustering ca2 = new KMeans(k);
 		
 		double mergeMetric = 1.0;
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"

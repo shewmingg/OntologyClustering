@@ -222,7 +222,8 @@ public class OntologyIterator {
 					int max = 0; // to find the deepest common parent node
 					for(int k=0;k<size;k++){
 						//if a common parent is found
-						if(dist.get(i).get(k)!=0 && dist.get(j).get(k)!=0){
+						//
+						if((dist.get(i).get(k)!=0 && dist.get(j).get(k)!=0)||(dist.get(i).get(k)!=0 &&j==k)||(dist.get(j).get(k)!=0 && i==k)){
 							if(depth.get(k)>max){
 								index = k;
 								max = depth.get(k);
