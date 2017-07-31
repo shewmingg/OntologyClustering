@@ -31,16 +31,7 @@ public class Alignment {
 
 		// suggested map of every cluster's concepts in first ontology
 		List<List<Integer>> cids = new ArrayList<List<Integer>>();
-		for (int i = 0; i < c1.size(); i++) {
-			ArrayList<Integer> tmp = new ArrayList<Integer>();
-			for (int j = c1.size(); j < c1.size() + c2.size(); j++) {
-				if (cos.get(i).get(j) > metric) {
-					tmp.add(j - c1.size());
-				}
-			}
-			
-			cids.add(tmp);
-		}
+		GenerateSuggestedMap(c1,c2,cos,metric,cids);
 
 
 		Map<String, List<String>> m = new HashMap<String, List<String>>();
@@ -61,7 +52,21 @@ public class Alignment {
 		}
 		return m;
 	}
-	public void GenerateTfIdf(){
-		
+	// suggested map of every cluster's concepts in first ontology
+	public void GenerateSuggestedMap (ArrayList<Cluster> c1, ArrayList<Cluster> c2, List<List<Double>> cos,double metric, List<List<Integer>> cids
+			){
+		if(cids==null){
+			cids = new ArrayList<List<Integer>>();
+		}
+		for (int i = 0; i < c1.size(); i++) {
+			ArrayList<Integer> tmp = new ArrayList<Integer>();
+			for (int j = c1.size(); j < c1.size() + c2.size(); j++) {
+				if (cos.get(i).get(j) > metric) {
+					tmp.add(j - c1.size());
+				}
+			}
+					
+		cids.add(tmp);
+		}
 	}
 }
