@@ -9,17 +9,16 @@ public class Alignment {
 	
 	public Map<String, List<String>> AlignOntologies(ArrayList<Cluster> c1, ArrayList<Cluster> c2,
 			ArrayList<String> conceptLabel1, ArrayList<String> conceptLabel2,
-			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2, double metric
+			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2, double metric, int topk
 			) {
 		// c1 and c2 vsm
 		List<List<String>> clusterText = new ArrayList<List<String>>();
 		TextExtraction te = new TextExtraction();
-		for (int i = 0; i < c1.size(); i++) {
-			clusterText.add(te.formalize(c1.get(i).getLabels(conceptLabel1)));
-		}
-		for (int i = 0; i < c2.size(); i++) {
-			clusterText.add(te.formalize(c2.get(i).getLabels(conceptLabel2)));
-		}
+		
+		te.formalizeClusters(c1, conceptLabel1,clusterText);
+		te.formalizeClusters(c2, conceptLabel2,clusterText);
+		
+		
 		List<List<String>> words = new ArrayList<List<String>>();// words in each cluster to be saved
 		List<List<Double>> tfidf = new ArrayList<List<Double>>();// tfidf to be saved
 		te.calculateTfIdf((ArrayList<List<String>>) clusterText, (ArrayList<List<String>>) words,
@@ -39,6 +38,7 @@ public class Alignment {
 					tmp.add(j - c1.size());
 				}
 			}
+			
 			cids.add(tmp);
 		}
 
@@ -60,5 +60,8 @@ public class Alignment {
 			}
 		}
 		return m;
+	}
+	public void GenerateTfIdf(){
+		
 	}
 }

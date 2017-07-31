@@ -32,9 +32,7 @@ public class TextExtraction {
 	}
 	//input: a: ArrayList of cluster's Strings
 	//output: formalized words, tokenized, lowercased, delete common words, change to origin
-	public ArrayList<String> formalize(ArrayList<String> a){
-		
-		
+	public ArrayList<String> formalize(ArrayList<String> a){	
 		ArrayList<String> finalString = new ArrayList<String>();
 		for(int i=0;i<a.size();i++){
 			if(a.get(i)!=null){
@@ -59,6 +57,15 @@ public class TextExtraction {
 		}
 
 		return finalString;
+	}
+	
+	public void formalizeClusters(ArrayList<Cluster> c, ArrayList<String> conceptLabel,List<List<String>> clusterText){
+		if(clusterText == null){
+			clusterText = new ArrayList<List<String>>();
+		}	
+		for (int i = 0; i < c.size(); i++) {
+			clusterText.add(formalize(c.get(i).getLabels(conceptLabel)));
+		}
 	}
 	
 

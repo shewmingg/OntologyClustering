@@ -16,6 +16,7 @@ public class KMeans extends Clustering{
 	}
 	
 	@Override
+	public
 	void buildClusters( ArrayList<List<Double>> Sim) {
 		__Sim = Sim;
 		//ArrayList<List<Double>> means = GenerateKMeans(__k);
@@ -132,7 +133,7 @@ public class KMeans extends Clustering{
 	}
 	
 	@Override
-	ArrayList<Cluster> getClusters() {
+	public ArrayList<Cluster> getClusters() {
 		
 		return __clusters;
 	}

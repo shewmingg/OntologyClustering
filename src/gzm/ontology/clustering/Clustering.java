@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Clustering {
-	abstract void buildClusters(ArrayList<List<Double>> Sim);
-	abstract ArrayList<Cluster> getClusters();
+	public abstract void buildClusters(ArrayList<List<Double>> Sim);
+	public abstract ArrayList<Cluster> getClusters();
 	
 }
