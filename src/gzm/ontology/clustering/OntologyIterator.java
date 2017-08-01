@@ -88,7 +88,7 @@ public class OntologyIterator {
 					//set distance and depth of the concept
 					autoSetDistAndDep(ParIdx, __conceptId.indexOf(cls.getLocalName()));
 				}
-				else if(similarityType.equalsIgnoreCase("JACCARD")){
+				else if(similarityType.equalsIgnoreCase("JACCARD") ||similarityType.equalsIgnoreCase("SB")){
 					if(ParIdx!=-1){
 						__dist.get(ParIdx).set(__conceptId.indexOf(cls.getLocalName()),1);
 						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx,1);
@@ -112,7 +112,7 @@ public class OntologyIterator {
 						}
 					}
 				}
-				else if(similarityType.equalsIgnoreCase("JACCARD")){
+				else if(similarityType.equalsIgnoreCase("JACCARD")||similarityType.equalsIgnoreCase("SB")){
 					if(ParIdx!=-1){
 						__dist.get(ParIdx).set(__conceptId.indexOf(cls.getLocalName()),1);
 						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx,1);
@@ -187,9 +187,29 @@ public class OntologyIterator {
 				}
 				up = 0;
 				bot = 0;
-			}
+			}			
+		}else if(similarityType.equalsIgnoreCase("SB")){
+			int up = 0;
+			double bot = 0;
+			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
 			
-			
+			for(int i=0;i<bss.size();i++){
+				for(int j=i;j<bss.size();j++){
+					BitSet tmp = (BitSet) bss.get(i).clone();
+					
+					tmp.and(bss.get(j));
+					up = tmp.cardinality();
+					tmp = (BitSet) bss.get(i).clone();
+					bot = tmp.cardinality();
+					tmp = (BitSet) bss.get(j).clone();
+					bot *=tmp.cardinality();
+					bot = Math.sqrt(bot);
+					__sim.get(i).set(j, 1.0*up/bot);
+					__sim.get(j).set(i, 1.0*up/bot);
+				}
+				up = 0;
+				bot = 0;
+			}			
 		}
 	}
 	

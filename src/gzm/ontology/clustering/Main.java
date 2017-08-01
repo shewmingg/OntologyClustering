@@ -21,7 +21,10 @@ public class Main {
 		
 		String folder2 = "./human/";
 		
-		String similarityType = "JACCARD";
+//		String similarityType = "JACCARD";
+//		String similarityType = "WU";
+		String similarityType = "SB";
+		
 		
 //		//knn k;
 //		int k=1;

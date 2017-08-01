@@ -9,7 +9,7 @@ public class Alignment {
 	
 	public Map<String, List<String>> AlignOntologies(ArrayList<Cluster> c1, ArrayList<Cluster> c2,
 			ArrayList<String> conceptLabel1, ArrayList<String> conceptLabel2,
-			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2, double metric, int topk
+			ArrayList<String> conceptIds1, ArrayList<String> conceptIds2, double metric
 			) {
 		// c1 and c2 vsm
 		List<List<String>> clusterText = new ArrayList<List<String>>();
@@ -66,7 +66,7 @@ public class Alignment {
 				}
 			}
 					
-		cids.add(tmp);
+			cids.add(tmp);
 		}
 	}
 }
