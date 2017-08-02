@@ -37,19 +37,19 @@ public class Main {
 //		Clustering ca1 = new KMeans(k);
 //		Clustering ca2 = new KMeans(k);
 		
-		Clustering ca1 = new Birch();
-		Clustering ca2 = new Birch();
-		double mergeMetric = 1.0;
-		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
-				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
-	
-//		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
-//				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
-		
-		ocgm.Generate(similarityType, ca1, mergeMetric);
-		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
-				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
-		ocgh.Generate(similarityType, ca2, mergeMetric);
+//		Clustering ca1 = new Birch();
+//		Clustering ca2 = new Birch();
+//		double mergeMetric = 1.0;
+//		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
+//				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
+//	
+////		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
+////				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
+//		
+//		ocgm.Generate(similarityType, ca1, mergeMetric);
+//		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
+//				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
+//		ocgh.Generate(similarityType, ca2, mergeMetric);
 		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies
@@ -77,7 +77,12 @@ public class Main {
 		
 		//evaluation
 		Evaluation eva = new Evaluation();
-		ArrayList<String> ref = eva.ReadRDF("reference.rdf"); // file must be in the same folder of this program
+		List<List<String>> ref = eva.ReadRdf("reference.rdf"); // file must be in the same folder of this program
+		
 		eva.ComputePrecisionRecallFscore(ref, m);
+		List<List<String>> sambo = eva.ReadRdf("SAMBO.rdf");
+		
+		eva.ComputePrecisionRecallFscore(ref, sambo);
+		
 	}
 }
