@@ -33,7 +33,7 @@ public class OntologyTest {
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
 		
-		ocgm.Generate(similarityType, ca1, mergeMetric);
+	//	ocgm.Generate(similarityType, ca1, mergeMetric);
 		
 
 	}

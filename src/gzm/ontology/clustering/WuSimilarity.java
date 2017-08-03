@@ -3,45 +3,50 @@ package gzm.ontology.clustering;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hp.hpl.jena.ontology.OntClass;
+
 public class WuSimilarity extends Similarity {
 
-	@Override
-	ArrayList<List<Float>> GetSimilarity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
-	void GenerateSimilarity() {
+	void GenerateSimilarity(OntologyIterator context) {
 		// TODO Auto-generated method stub
-		
-	}
-	public void GenerateSimilarity(ArrayList<List<Float>> dist, ArrayList<Integer> depth, ArrayList<List<Float>> sim){
-		float min=Float.MAX_VALUE;
-		int index = -1;
-		for(int i=0;i<dist.size();i++){
-			for(int j=0;j<dist.size();j++){
-				for(int k=0;k<dist.get(i).size();k++){
-					if(((dist.get(i).get(k)!=0 && dist.get(j).get(k)!=0) ||
-							(dist.get(i).get(k)!=0 && j==k) ||
-							(dist.get(j).get(k)!=0 &&i==k)) && i!=j){
-						if(min>dist.get(i).get(k)){
-							min = dist.get(i).get(k);
-							index = k;
-						}
-					}						
+		ArrayList<List<Integer>> cpidx = context.FindLeastCommonParent(context.getDepth(), (ArrayList<List<Integer>>) context.getDistance(), context.getDepth().size());
+		for(int i=0;i<context.getSim().size();i++){
+			for(int j=i;j<context.getSim().size();j++){
+				if(cpidx.get(i).get(j)!=-1){
+					context.getSim().get(i).set(j, 2.0*context.getDepth().get(cpidx.get(i).get(j))/(context.getDepth().get(i)+context.getDepth().get(j)));
+					context.getSim().get(j).set(i, 2.0*context.getDepth().get(cpidx.get(i).get(j))/(context.getDepth().get(i)+context.getDepth().get(j)));
 				}
-				if(index!=-1){
-					sim.get(i).set(j, 2*depth.get(index)/(dist.get(i).get(index)+
-						dist.get(j).get(index)+2*depth.get(index)));
-				}else{
-					sim.get(i).set(j, (float)0);
-				}
-				index = -1;
-				min = Float.MAX_VALUE;
+				
 			}
-
 		}
+	}
+
+	@Override
+	void SetParametersFirstOccur(OntologyIterator context, int ParIdx, OntClass cls) {
+		// TODO Auto-generated method stub
+		context.getDepth().add(0);
+		
+		//set distance and depth of the concept
+		context.autoSetDistAndDep(ParIdx, context.getConceptId().indexOf(cls.getLocalName()));
+	}
+
+	@Override
+	void SetParametersNonFirstOccur(OntologyIterator context, int ParIdx, OntClass cls) {
+		// TODO Auto-generated method stub
+		if(ParIdx!=-1){
+			for(int i=0;i<context.getDistance().size();i++){
+				if(context.getDistance().get(ParIdx).get(i)!=0)
+					context.getDistance().get(context.getConceptId().indexOf(cls.getLocalName())).set(i, context.getDistance().get(ParIdx).get(i)+1);
+			}
+			context.getDistance().get(context.getConceptId().indexOf(cls.getLocalName())).set(ParIdx, 1);
+			if(context.getDepth().get(ParIdx)+1>context.getDepth().get(context.getConceptId().indexOf(cls.getLocalName()))){
+				context.getDepth().set(context.getConceptId().indexOf(cls.getLocalName()), context.getDepth().get(ParIdx)+1);
+			}
+		}
+		
 	}
 
 }

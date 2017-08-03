@@ -17,6 +17,7 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
+
 public class OntologyIterator {
 	private String __fileName; 
 	private String __ontoName;
@@ -34,7 +35,7 @@ public class OntologyIterator {
 		__ontoName = ontoName;
 		__absolutePath = absolutePath;
 	}
-	public void Iterate(String similarityType){
+	public void Iterate(Similarity similarity){
 		__m = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
 		try {
 			__m.read(__absolutePath);
@@ -53,22 +54,21 @@ public class OntologyIterator {
 		
 		Iterator<OntClass> iter = __m.listHierarchyRootClasses();
 		while (iter.hasNext()) {
-			IterateClass(-1, iter.next(), similarityType);
+			IterateClass(-1, iter.next(), similarity);
 		}
-	//	WuSimilarity similarity = new WuSimilarity();
-		
 		//init similarity
 		for(int i=0;i<__conceptId.size();i++){
 			__sim.add(new ArrayList<Double>(Collections.nCopies(__conceptId.size(), (double)0)));
 		}
-		GenerateSimilarity(similarityType);
+		similarity.GenerateSimilarity(this);
+		//GenerateSimilarity(similarity);
 
 		util.writeDoubleArrayList("Similarity",(ArrayList<List<Double>>)__sim,__filePath);
 		util.writeArrayList("Concept",__conceptId,__filePath);
 		util.writeArrayList("ConceptLabel",__conceptLabel,__filePath);
 	}
 	
-	public void IterateClass(int ParIdx, OntClass cls, String similarityType){
+	public void IterateClass(int ParIdx, OntClass cls, Similarity similarity){
 		//check the concept's validity
 		if(LegalCheck(cls)){	
 			//concept hasn't been recorded
@@ -81,51 +81,19 @@ public class OntologyIterator {
 				//increase the capacity of  Distance matrix
 				enlarge2dArray((ArrayList<List<Integer>>) __dist);
 				
-				if(similarityType.equalsIgnoreCase("WU")){
-					//increase the depth array
-					__depth.add(0);
+				similarity.SetParametersFirstOccur(this, ParIdx, cls);
 				
-					//set distance and depth of the concept
-					autoSetDistAndDep(ParIdx, __conceptId.indexOf(cls.getLocalName()));
-				}
-				else if(similarityType.equalsIgnoreCase("JACCARD") ||similarityType.equalsIgnoreCase("SB")){
-					if(ParIdx!=-1){
-						__dist.get(ParIdx).set(__conceptId.indexOf(cls.getLocalName()),1);
-						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx,1);
-						
-					}
-					//distance to itself
-					__dist.get(__conceptId.indexOf(cls.getLocalName())).set(__conceptId.indexOf(cls.getLocalName()),1);
-				}
-			
 			//concept already appeared before
 			}else{
-				if(similarityType.equalsIgnoreCase("WU")){
-					if(ParIdx!=-1){
-						for(int i=0;i<__dist.size();i++){
-							if(__dist.get(ParIdx).get(i)!=0)
-								__dist.get(__conceptId.indexOf(cls.getLocalName())).set(i, __dist.get(ParIdx).get(i)+1);
-						}
-						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx, 1);
-						if(__depth.get(ParIdx)+1>__depth.get(__conceptId.indexOf(cls.getLocalName()))){
-							__depth.set(__conceptId.indexOf(cls.getLocalName()), __depth.get(ParIdx)+1);
-						}
-					}
-				}
-				else if(similarityType.equalsIgnoreCase("JACCARD")||similarityType.equalsIgnoreCase("SB")){
-					if(ParIdx!=-1){
-						__dist.get(ParIdx).set(__conceptId.indexOf(cls.getLocalName()),1);
-						__dist.get(__conceptId.indexOf(cls.getLocalName())).set(ParIdx,1);
-						
-					}
-				}
+				similarity.SetParametersNonFirstOccur(this, ParIdx, cls);
+				
 			}
 		}
 		//depth first iterate every leaves of it.
 		if (cls.canAs(OntClass.class)) {
 			for (Iterator<OntClass> i = cls.listSubClasses(true); i.hasNext();) {
 				OntClass sub = i.next();
-				IterateClass(__conceptId.indexOf(cls.getLocalName()), sub, similarityType);			
+				IterateClass(__conceptId.indexOf(cls.getLocalName()), sub, similarity);			
 			}
 		}
 		
@@ -143,32 +111,33 @@ public class OntologyIterator {
 			}		
 			__dist.get(CldIdx).set(ParIdx, 1);
 			//select the longest path as depth
-			if(__depth.get(CldIdx)<__depth.get(ParIdx)+1){
-				__depth.set(CldIdx, __depth.get(ParIdx)+1);
+			if(getDepth().get(CldIdx)<getDepth().get(ParIdx)+1){
+				getDepth().set(CldIdx, getDepth().get(ParIdx)+1);
 			}
 		}else{
 			//select the longest path as depth
-			if(__depth.get(CldIdx)<1){
-				__depth.set(CldIdx, 1);
+			if(getDepth().get(CldIdx)<1){
+				getDepth().set(CldIdx, 1);
 			}
 		}
 		
 	}
-	public void GenerateSimilarity(String similarityType){
-		if(similarityType.equalsIgnoreCase("WU")){
+	public void GenerateSimilarity(String similarity){
+		
+		if(similarity.equalsIgnoreCase("WU")){
 			//every two concepts' least common parent, -1 if none
-			ArrayList<List<Integer>> cpidx = FindLeastCommonParent(__depth, (ArrayList<List<Integer>>) __dist, __depth.size());
+			ArrayList<List<Integer>> cpidx = FindLeastCommonParent(getDepth(), (ArrayList<List<Integer>>) __dist, getDepth().size());
 			for(int i=0;i<__sim.size();i++){
 				for(int j=i;j<__sim.size();j++){
 					if(cpidx.get(i).get(j)!=-1){
-						__sim.get(i).set(j, 2.0*__depth.get(cpidx.get(i).get(j))/(__depth.get(i)+__depth.get(j)));
-						__sim.get(j).set(i, 2.0*__depth.get(cpidx.get(i).get(j))/(__depth.get(i)+__depth.get(j)));
+						__sim.get(i).set(j, 2.0*getDepth().get(cpidx.get(i).get(j))/(getDepth().get(i)+getDepth().get(j)));
+						__sim.get(j).set(i, 2.0*getDepth().get(cpidx.get(i).get(j))/(getDepth().get(i)+getDepth().get(j)));
 					}
 					
 				}
 			}
 			
-		}else if(similarityType.equalsIgnoreCase("JACCARD")){
+		}else if(similarity.equalsIgnoreCase("JACCARD")){
 			int up = 0;
 			int bot = 0;
 			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
@@ -188,7 +157,7 @@ public class OntologyIterator {
 				up = 0;
 				bot = 0;
 			}			
-		}else if(similarityType.equalsIgnoreCase("SB")){
+		}else if(similarity.equalsIgnoreCase("SB")){
 			int up = 0;
 			double bot = 0;
 			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
@@ -307,6 +276,17 @@ public class OntologyIterator {
 	public ArrayList<String> getConceptLabel(){
 		return __conceptLabel;
 	}
-	
+	public ArrayList<Integer> getDepth() {
+		return __depth;
+	}
+	public ArrayList<String> getConceptId(){
+		return __conceptId;
+	}
+	public void set__depth(ArrayList<Integer> __depth) {
+		this.__depth = __depth;
+	}
+	public List<List<Integer>> getDistance(){
+		return __dist;
+	}
 	
 }

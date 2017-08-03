@@ -13,6 +13,7 @@ import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.morph.WordnetStemmer;
 import gzm.ontology.birch.Birch;
+import gzm.ontology.clustering.util.SimilarityType;
 
 public class Main {
 	public static void main(String[] args) {
@@ -23,8 +24,11 @@ public class Main {
 		
 //		String similarityType = "JACCARD";
 //		String similarityType = "WU";
-		String similarityType = "SB";
+//		String similarityType = "SB";
+		SimilarityType similarityType= SimilarityType.SB;
 		
+		SimilarityFactory sf = new SimilarityFactory();
+		Similarity similarity = sf.GetSimilarity(similarityType);
 		
 //		//knn k;
 //		int k=1;
@@ -39,17 +43,17 @@ public class Main {
 		
 //		Clustering ca1 = new Birch();
 //		Clustering ca2 = new Birch();
-		double mergeMetric = 0.8;
+		double mergeMetric = 1.0;
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 	
 //		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("university.owl",folder1,"university"
 //				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/university/university.owl");
 		
-		ocgm.Generate(similarityType, ca1, mergeMetric);
+		ocgm.Generate(similarity, ca1, mergeMetric);
 		OntologyClusterGenerator ocgh = new OntologyClusterGenerator("human.owl",folder2,"human",
 				"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/human/human.owl");
-		ocgh.Generate(similarityType, ca2, mergeMetric);
+		ocgh.Generate(similarity, ca2, mergeMetric);
 		
 		
 		//read clusters, clusters' concept label, clusters' concept id of two ontologies

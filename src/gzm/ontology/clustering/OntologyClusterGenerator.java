@@ -3,6 +3,8 @@ package gzm.ontology.clustering;
 import java.util.ArrayList;
 import java.util.List;
 
+import gzm.ontology.clustering.util.SimilarityType;
+
 public class OntologyClusterGenerator {
 	String __fileName;
 	String __folder;
@@ -18,7 +20,7 @@ public class OntologyClusterGenerator {
 		__absolutePath = absolutePath;
 	}
 	//using c clustering method to cluster, based on "similarityType" similarity generation, mergeMetric defines the VSM's cos similarity threshold
-	public void Generate(String similarityType, Clustering c, double mergeMetric){	
+	public void Generate(Similarity similarityType, Clustering c, double mergeMetric){	
 		OntologyIterator oiter = new OntologyIterator(__fileName,__folder,__ontoName,__absolutePath);
 		//first time generate
 		oiter.Iterate(similarityType);
