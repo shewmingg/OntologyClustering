@@ -122,66 +122,6 @@ public class OntologyIterator {
 		}
 		
 	}
-	public void GenerateSimilarity(String similarity){
-		
-		if(similarity.equalsIgnoreCase("WU")){
-			//every two concepts' least common parent, -1 if none
-			ArrayList<List<Integer>> cpidx = FindLeastCommonParent(getDepth(), (ArrayList<List<Integer>>) __dist, getDepth().size());
-			for(int i=0;i<__sim.size();i++){
-				for(int j=i;j<__sim.size();j++){
-					if(cpidx.get(i).get(j)!=-1){
-						__sim.get(i).set(j, 2.0*getDepth().get(cpidx.get(i).get(j))/(getDepth().get(i)+getDepth().get(j)));
-						__sim.get(j).set(i, 2.0*getDepth().get(cpidx.get(i).get(j))/(getDepth().get(i)+getDepth().get(j)));
-					}
-					
-				}
-			}
-			
-		}else if(similarity.equalsIgnoreCase("JACCARD")){
-			int up = 0;
-			int bot = 0;
-			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
-			
-			for(int i=0;i<bss.size();i++){
-				for(int j=i;j<bss.size();j++){
-					BitSet tmp = (BitSet) bss.get(i).clone();
-					
-					tmp.and(bss.get(j));
-					up = tmp.cardinality();
-					tmp = (BitSet) bss.get(i).clone();
-					tmp.or(bss.get(j));
-					bot = tmp.cardinality();
-					__sim.get(i).set(j, 1.0*up/bot);
-					__sim.get(j).set(i, 1.0*up/bot);
-				}
-				up = 0;
-				bot = 0;
-			}			
-		}else if(similarity.equalsIgnoreCase("SB")){
-			int up = 0;
-			double bot = 0;
-			ArrayList<BitSet> bss = TransToBitset((ArrayList<List<Integer>>) __dist);
-			
-			for(int i=0;i<bss.size();i++){
-				for(int j=i;j<bss.size();j++){
-					BitSet tmp = (BitSet) bss.get(i).clone();
-					
-					tmp.and(bss.get(j));
-					up = tmp.cardinality();
-					tmp = (BitSet) bss.get(i).clone();
-					bot = tmp.cardinality();
-					tmp = (BitSet) bss.get(j).clone();
-					bot *=tmp.cardinality();
-					bot = Math.sqrt(bot);
-					__sim.get(i).set(j, 1.0*up/bot);
-					__sim.get(j).set(i, 1.0*up/bot);
-				}
-				up = 0;
-				bot = 0;
-			}			
-		}
-	}
-	
 	public ArrayList<BitSet> TransToBitset(ArrayList<List<Integer>> a){
 		ArrayList<BitSet> bss = new ArrayList<BitSet>();
 		for(int i=0;i<a.size();i++){

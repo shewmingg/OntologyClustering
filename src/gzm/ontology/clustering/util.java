@@ -379,6 +379,6 @@ public final class util {
 		}
 	}
 	public enum SimilarityType {
-	    WU,SB,JACCARD
+	    WU,SB,JACCARD,Dennai
 	}
 }

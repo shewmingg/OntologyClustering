@@ -25,7 +25,7 @@ public class Main {
 //		String similarityType = "JACCARD";
 //		String similarityType = "WU";
 //		String similarityType = "SB";
-		SimilarityType similarityType= SimilarityType.SB;
+		SimilarityType similarityType= SimilarityType.Dennai;
 		
 		SimilarityFactory sf = new SimilarityFactory();
 		Similarity similarity = sf.GetSimilarity(similarityType);

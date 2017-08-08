@@ -12,6 +12,8 @@ public class SimilarityFactory {
 			return new JaccardSimilarity();
 		}else if(similarityType.equals(SimilarityType.SB)){
 			return new SbSimilarity();
+		}else if(similarityType.equals(SimilarityType.Dennai)){
+			return new DennaiSimilarity();
 		}
 	    return null;
 	}
