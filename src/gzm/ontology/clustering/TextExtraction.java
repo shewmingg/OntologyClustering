@@ -39,8 +39,10 @@ public class TextExtraction {
 				ArrayList<String> tmp = new ArrayList<String>(Arrays.asList(a.get(i).split(" |_")));
 				for(int j=0;j<tmp.size();j++){
 					tmp.get(j).toLowerCase();
-					if(tmp.get(j)=="the" || tmp.get(j)=="a" || tmp.get(j)=="an" || tmp.get(j)=="of"){
+					if(tmp.get(j).equals("the") || tmp.get(j).equals("a") || tmp.get(j).equals("an")
+							|| tmp.get(j).equals("of") || tmp.get(j).equals("for") ||tmp.get(j).equals("with")){
 						tmp.remove(j);
+						j--;
 					}
 					else{
 						for(int k=0;k<pos.size();k++){

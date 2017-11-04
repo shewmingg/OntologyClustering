@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class LeafNode extends TreeNode {
 	 
     private int L=10;
-    private double T=1.0;
+    private double T=1.15;
     private ArrayList<MinCluster> children;
     private LeafNode pre;
     private LeafNode next;

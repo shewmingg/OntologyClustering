@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1499858149511" name="http://human.owl" uri="human/human.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1499858149511" name="http://mouse.owl" uri="mouse/mouse.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1504711810460" name="http://human.owl" uri="human/human.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1504711810460" name="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" uri="SAMBO.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1504711810460" name="http://mouse.owl" uri="mouse/mouse.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1504711810460" name="http://www.owl-ontologies.com/unnamed.owl" uri="university/university.owl"/>
     </group>
 </catalog>

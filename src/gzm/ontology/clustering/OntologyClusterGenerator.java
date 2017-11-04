@@ -3,7 +3,6 @@ package gzm.ontology.clustering;
 import java.util.ArrayList;
 import java.util.List;
 
-import gzm.ontology.clustering.util.SimilarityType;
 
 public class OntologyClusterGenerator {
 	String __fileName;

@@ -165,7 +165,7 @@ public class Chameleon extends Clustering {
 			}
 		}
 		
-		private double calMetricfunction(Cluster c1, Cluster c2, int alpha) {
+		private double calMetricfunction(Cluster c1, Cluster c2, double alpha) {
 			double metricValue = 0;
 			double RI = 0;
 			double RC = 0;

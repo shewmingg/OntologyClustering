@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gzm.ontology.clustering.Main.SimilarityType;
+
 public final class util { 
 	public static ArrayList<List<Float>> readDoubleArrayList(String fileName){
 		BufferedReader br = null;
@@ -378,7 +380,37 @@ public final class util {
 
 		}
 	}
-	public enum SimilarityType {
-	    WU,SB,JACCARD,Dennai
+	public static void WriteLog(String fileName, ArrayList<String> parameters){
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		try {			
+			fw = new FileWriter(fileName,true);
+			bw = new BufferedWriter(fw);
+			for(int i=0;i<parameters.size();i++){
+				bw.write(parameters.get(i) + " ");
+			}
+			bw.write("\n");
+			System.out.println("log written");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
 	}
 }

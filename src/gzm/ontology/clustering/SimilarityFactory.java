@@ -1,6 +1,6 @@
 package gzm.ontology.clustering;
 
-import gzm.ontology.clustering.util.SimilarityType;
+import gzm.ontology.clustering.Main.SimilarityType;
 
 public class SimilarityFactory {
 	public Similarity GetSimilarity(SimilarityType similarityType){

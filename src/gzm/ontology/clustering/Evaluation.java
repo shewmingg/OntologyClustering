@@ -61,7 +61,8 @@ public class Evaluation {
 	public void GenerateSuggestion(){
 		
 	}
-	public void ComputePrecisionRecallFscore(List<List<String>> reference, List<List<String>> suggested){
+	public ArrayList<String> ComputePrecisionRecallFscore(List<List<String>> reference, List<List<String>> suggested){
+		ArrayList<String> t = new ArrayList<String>();
 		int matched = 0;// count how many matching in reference get suggested.
 		for(int i=0;i<reference.size();i++){
 			if(suggested.contains(reference.get(i))){
@@ -78,9 +79,16 @@ public class Evaluation {
 		System.out.println("suggestion quantity: "+ suggestionCount);
 		System.out.println("recall: "+ formatter.format(recall*100) + "%");	
 		System.out.println("precision: "+ formatter.format(precision*100) + "%");
-		System.out.println("f-score: " + formatter.format(fscore*100) + "%");	
+		System.out.println("f-score: " + formatter.format(fscore*100) + "%");
+		
+		t.add("suggestion quantity: "+ suggestionCount);
+		t.add("recall: "+ formatter.format(recall*100) + "%");
+		t.add("precision: "+ formatter.format(precision*100) + "%");
+		t.add("f-score: " + formatter.format(fscore*100) + "%");
+		return t;
 	}
-	public void ComputePrecisionRecallFscore(List<List<String>> reference, Map<String,List<String>> suggested){
+	public ArrayList<String> ComputePrecisionRecallFscore(List<List<String>> reference, Map<String,List<String>> suggested){
+		ArrayList<String> t = new ArrayList<String>();
 		int matched = 0;// count how many matching in reference get suggested.
 		for(int i=0;i<reference.size();i++){
 			if(suggested.containsKey(reference.get(i).get(0))){
@@ -106,6 +114,11 @@ public class Evaluation {
 		System.out.println("recall: "+ formatter.format(recall*100) + "%");	
 		System.out.println("precision: "+ formatter.format(precision*100) + "%");
 		System.out.println("f-score: " + formatter.format(fscore*100) + "%");	
+		t.add("suggestion quantity: "+ suggestionCount);
+		t.add("recall: "+ formatter.format(recall*100) + "%");
+		t.add("precision: "+ formatter.format(precision*100) + "%");
+		t.add("f-score: " + formatter.format(fscore*100) + "%");
+		return t;
 	}
 	// how many suggestions contained in Map<String, List<String>>, being dimen2's count sum
 	public int CountSuggestion(Map<String,List<String>> suggested){

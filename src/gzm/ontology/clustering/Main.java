@@ -8,16 +8,23 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.morph.WordnetStemmer;
 import gzm.ontology.birch.Birch;
-import gzm.ontology.clustering.util.SimilarityType;
 
 public class Main {
+	public enum SimilarityType {
+	    WU,SB,JACCARD,Dennai
+	};
 	public static void main(String[] args) {
-		String folder1 = "./mouse/";
+		ArrayList<String> para = new ArrayList<String>();
+		
+		 TimeWatch watch = TimeWatch.start();
+	        
+	   	String folder1 = "./mouse/";
 		//String folder1 = "./university/";
 		
 		String folder2 = "./human/";
@@ -25,25 +32,40 @@ public class Main {
 //		String similarityType = "JACCARD";
 //		String similarityType = "WU";
 //		String similarityType = "SB";
-		SimilarityType similarityType= SimilarityType.Dennai;
-		
+		SimilarityType similarityType= SimilarityType.SB;
+		para.add(similarityType.toString());
 		SimilarityFactory sf = new SimilarityFactory();
 		Similarity similarity = sf.GetSimilarity(similarityType);
 		
-//		//knn k;
-//		int k=1;
-//		//metric
-//		double minMetric = 0.1;
-//		Clustering ca1 = new Chameleon(k, minMetric);
-//		Clustering ca2 = new Chameleon(k, minMetric);
+		//knn k;
+		int k=1;
+		//metric
+		double minMetric = 0.1;
+		Clustering ca1 = new Chameleon(k, minMetric);
+		Clustering ca2 = new Chameleon(k, minMetric);
+//		para.add("Chameleon");
+//		para.add("k:"+k.toString());
+//		para.add("minMetric:"+minMetric.toString());
 		
-		//int k = 500;
-		Clustering ca1 = new KMeans(65);
-		Clustering ca2 = new KMeans(93);
+		
+//		int k1 = 65;
+//		int k2 = 93;
+//		int k1 = 2000;
+//		int k2 = 2000;
+//		Clustering ca1 = new KMeans(k1);
+//		Clustering ca2 = new KMeans(k2);
+//		para.add("KMeans");
+//		para.add("k1:"+ k1);
+//		para.add("k2:" + k2);
+		
 		
 //		Clustering ca1 = new Birch();
 //		Clustering ca2 = new Birch();
+//		para.add("Birch");
+		
 		double mergeMetric = 1.0;
+		para.add("mergeMetric: "+ mergeMetric);
+		
 		OntologyClusterGenerator ocgm = new OntologyClusterGenerator("mouse.owl",folder1,"mouse"
 				,"file:///Users/gaozhiming/Documents/eclipseworkspace/OntologySearchSpaceReduction/mouse/mouse.owl");
 	
@@ -76,8 +98,13 @@ public class Main {
 		
 		//align the clusters in two ontology, yield the matching proposal of each concept in first ontology
 		Alignment alm = new Alignment();
-		double alignMetric = 0.05;
+		double alignMetric = 0.4;
+		para.add("alignmentMetric: "+alignMetric);
 		Map<String,List<String>> m = alm.AlignOntologies(c1, c2, l1, l2, conceptIds1, conceptIds2, alignMetric);
+		
+		
+        System.out.println("Elapsed Time in seconds: " + watch.time(TimeUnit.SECONDS));
+        System.out.println("Elapsed Time in nano seconds: " + watch.time());
 		
 		//evaluation
 		Evaluation eva = new Evaluation();
@@ -85,11 +112,14 @@ public class Main {
 		
 		List<List<String>> sambo = eva.ReadRdf("SAMBO.rdf");
 		
-		eva.ComputePrecisionRecallFscore(ref, m);
-		eva.ComputePrecisionRecallFscore(ref, eva.CommonExtraction(sambo,m));
-		
+		para.addAll(eva.ComputePrecisionRecallFscore(ref, m));
+		para.addAll(eva.ComputePrecisionRecallFscore(ref, eva.CommonExtraction(sambo,m)));
 		
 		//second way of r p f computation
-		eva.ComputePrecisionRecallFscore(eva.CommonExtraction(ref, m), eva.CommonExtraction(sambo, m));
+		para.addAll(eva.ComputePrecisionRecallFscore(eva.CommonExtraction(ref, m), eva.CommonExtraction(sambo, m)));
+		
+		util.WriteLog("experiment_result",para);
+		
+		
 	}
 }
